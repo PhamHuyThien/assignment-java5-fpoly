@@ -47,7 +47,7 @@ public class RegisterController {
             @Valid @ModelAttribute("account-register") AccountRegister accountRegister,
             BindingResult bind
     ) {
-        error.start("register");
+        error.start("register", "redirect:/login");
         if (bind.hasErrors()) {
             error.add("Form not valid!");
             return error.path();

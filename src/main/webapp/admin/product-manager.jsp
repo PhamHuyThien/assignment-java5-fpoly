@@ -6,41 +6,62 @@
 <%@include file="../inc/header.jsp" %>
 
 <form:form method="POST" action="/admin/product-manager/add" modelAttribute="productForm" enctype="multipart/form-data">
-    <form:select path="categoryId">
-        <c:forEach items="${listCategory}" var="category">
-            <c:choose>
-                <c:when test="${category.id == productForm.categoryId}">
-                    <form:option selected="true" value="${category.id}">${category.name}</form:option>
-                </c:when>
-                <c:otherwise>
-                    <form:option value="${category.id}">${category.name}</form:option>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-    </form:select><br/>
-    id: <form:input path="id" /> <form:errors path="id" element="li" delimiter="; " cssClass="error"/> <br/> 
-    name: <form:input path="name" /> <form:errors path="name" element="li" delimiter="; " cssClass="error"/> <br/> 
-    price: <form:input path="price" /> <form:errors path="price" element="li" delimiter="; " cssClass="error"/> <br/> 
-    image: <input type="file" name="avatar"><br/>
-    <form:select path="status">
-        <form:option value="true">Kích hoạt</form:option>
-        <form:option value="false">Bỏ kích hoạt</form:option>
-    </form:select><br/>
-    <button name="add">Thêm</button>
-    <button formaction="/admin/product-manager/delete" >Xóa</button>
+
+    <div class="form-inline">
+        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Thể loại sản phẩm:</label>
+        <form:select cssClass="custom-select" path="categoryId">
+            <c:forEach items="${listCategory}" var="category">
+                <c:choose>
+                    <c:when test="${category.id == productForm.categoryId}">
+                        <form:option selected="true" value="${category.id}">${category.name}</form:option>
+                    </c:when>
+                    <c:otherwise>
+                        <form:option value="${category.id}">${category.name}</form:option>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </form:select>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">id:</label>
+        <form:input path="id" cssClass="form-control"/> <form:errors path="id" element="li" delimiter="; " cssClass="error"/> 
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name:</label>
+        <form:input path="name" cssClass="form-control"/> <form:errors path="name" element="li" delimiter="; " cssClass="error"/>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Price:</label>
+        <form:input path="price" cssClass="form-control" /> <form:errors path="price" element="li" delimiter="; " cssClass="error"/> 
+    </div><br/>
+    <div class="custom-file">
+        <input type="file" name="file" class="custom-file-input" id="validatedCustomFile" required>
+        <label class="custom-file-label" for="validatedCustomFile">Chọn file ảnh sản phẩm...</label>
+    </div><br/><br/>
+    <div class="form-inline">
+        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Tình trạng:</label>
+        <form:select path="status" cssClass="custom-select">
+            <form:option value="true">Kích hoạt</form:option>
+            <form:option value="false">Bỏ kích hoạt</form:option>
+        </form:select>
+    </div><br/>
+    <div class="text-right">
+        <button class="btn btn-primary" name="add">Thêm</button>
+        <button class="btn btn-danger" formaction="/admin/product-manager/delete" >Xóa</button>
+        <button class="btn btn-warning" formaction="/admin/product-manager" formmethod="get">Reset</button>
+    </div><br/>
 </form:form>
-<button onclick="window.location.href='/admin/product-manager'">Reset</button>
 <c:forEach items="${error}" var="err">
-    <span class="error">
+    <div class="alert alert-error" role="alert">
         ${err}
-    </span><br/>
+    </div>
 </c:forEach>
 <c:if test="${not empty success}">
-    <span class="success">
+    <div class="alert alert-success" role="alert">
         ${success}
-    </span><br/>
+    </div>
 </c:if>
-<table border="1"> 
+<table class="table table-striped"> 
     <thead>
         <tr>
             <th><a href="?col-sort=id&type-sort=${typesort}&page=${page}">id</a></th>
@@ -64,9 +85,10 @@
         </c:forEach>
     </tbody>
 </table>
-<a href="?page=${page-1}">prev</a> ${page+1}
-<a href="?page=${page+1}">next</a>
-
+<div class="text-center">    
+    <a href="?page=${page-1}">prev</a> ${page+1}
+    <a href="?page=${page+1}">next</a>
+</div>
 <script>
     let pathName = window.location.pathname;
     if(!pathName.endsWith("product-manager/") && !pathName.endsWith("product-manager")){

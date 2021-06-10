@@ -25,6 +25,7 @@ import thiendz.j5.assignment.model.Order;
 import thiendz.j5.assignment.model.OrderDetail;
 import thiendz.j5.assignment.model.Product;
 import thiendz.j5.assignment.model.atrributes.PaymentForm;
+import thiendz.j5.assignment.service.AccountSessionService;
 import thiendz.j5.assignment.service.ErrorManager;
 import thiendz.j5.assignment.service.SessionService;
 import thiendz.j5.assignment.service.ShoppingCartServiceImpl;
@@ -32,11 +33,13 @@ import thiendz.j5.assignment.service.ShoppingCartServiceImpl;
 @Controller
 @RequestMapping("/payment")
 public class PaymentController {
-
+    
     @Autowired
     SessionService sessionService;
     @Autowired
     ShoppingCartServiceImpl shoppingCartServiceImpl;
+    @Autowired
+    AccountSessionService accountSessionService;
     @Autowired
     HttpServletRequest rq;
     @Autowired
@@ -47,12 +50,9 @@ public class PaymentController {
     OrderDetailDAO orderDetailDAO;
     @Autowired
     OrderDAO orderDAO;
-
+    
     @GetMapping
     public String getIndex() {
-        if (!sessionService.isLogin()) {
-            return "redirect:/login";
-        }
         if (shoppingCartServiceImpl.getCount() == 0) {
             return "redirect:/";
         }
@@ -63,12 +63,12 @@ public class PaymentController {
         rq.setAttribute("totalPayment", shoppingCartServiceImpl.totalPayment());
         return "/payment";
     }
-
+    
     @GetMapping({"/add"})
     public String redirectIndex() {
         return "redirect:/payment";
     }
-
+    
     @RequestMapping("/add")
     public String payment(
             @Valid @ModelAttribute("paymentForm") PaymentForm paymentForm,
@@ -106,6 +106,7 @@ public class PaymentController {
             orderDetailDAO.save(orderDetail);
         });
         shoppingCartServiceImpl.clear();
+        accountSessionService.setCountShoppingCart(0);
         return "redirect:/";
     }
 }

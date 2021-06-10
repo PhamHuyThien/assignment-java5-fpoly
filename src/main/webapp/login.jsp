@@ -6,13 +6,22 @@
 <%@include file="inc/header.jsp" %>
 
 <form:form method="POST" modelAttribute="account-login">
-    username: <form:input path="username" /> <form:errors path="username" element="li" delimiter="; " cssClass="error"/> <br/> 
-    password: <form:password path="password" /> <form:errors path="password" element="li" delimiter="; " cssClass="error"/> <br/> 
-    <button name="login">Login</button>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Username:</label>
+        <form:input path="username" cssClass="form-control"/> <form:errors path="username" element="li" delimiter="; " cssClass="error"/>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Password:</label>
+        <form:password path="password" cssClass="form-control"/> <form:errors path="password" element="li" delimiter="; " cssClass="error"/> 
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
 </form:form>
+<br/>
 <c:forEach items="${error}" var="err">
-    <span class="error">
+    <div class="alert alert-danger" role="alert">
         ${err}
-    </span><br/>
+    </div>
 </c:forEach>
 <%@include file="inc/footer.jsp" %>

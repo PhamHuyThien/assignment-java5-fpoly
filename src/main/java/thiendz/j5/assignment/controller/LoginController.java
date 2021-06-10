@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import thiendz.j5.assignment.dao.AccountDAO;
 import thiendz.j5.assignment.model.Account;
 import thiendz.j5.assignment.model.atrributes.AccountLogin;
+import thiendz.j5.assignment.service.AccountSessionService;
 import thiendz.j5.assignment.service.CookieService;
 import thiendz.j5.assignment.service.ErrorManager;
 import thiendz.j5.assignment.service.SessionService;
@@ -26,7 +27,7 @@ import thiendz.j5.assignment.service.SessionService;
 @Controller
 @RequestMapping({"/login", "/login.*"})
 public class LoginController {
-
+    
     @Autowired
     ErrorManager error;
     @Autowired
@@ -35,7 +36,9 @@ public class LoginController {
     CookieService cookieService;
     @Autowired
     SessionService sessionService;
-
+    @Autowired
+    AccountSessionService accountSessionService;
+    
     @GetMapping
     public String getIndex(Model model) {
         if (sessionService.isLogin()) {
@@ -44,7 +47,7 @@ public class LoginController {
         model.addAttribute("account-login", new AccountLogin());
         return "login";
     }
-
+    
     @PostMapping
     public String login(
             @Valid @ModelAttribute("account-login") AccountLogin accountLogin,
@@ -69,6 +72,7 @@ public class LoginController {
         cookieService.add("password", account.getPassword(), 24);
         cookieService.add("role", account.getRole() ? "1" : "0", 24);
         sessionService.set("account", account);
+        accountSessionService.setAccount(account);
         return error.path();
     }
 }

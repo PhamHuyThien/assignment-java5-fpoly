@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thiendz.j5.assignment.model;
+package thiendz.j5.assignment.model.atrributes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

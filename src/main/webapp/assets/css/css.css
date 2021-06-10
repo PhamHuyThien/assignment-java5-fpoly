@@ -6,3 +6,12 @@
 .success{
     color: green;
 }
+
+*{
+    padding: 0;
+    margin: 0;
+}
+.widgets {
+    display: flex;
+    justify-content: space-around;
+}

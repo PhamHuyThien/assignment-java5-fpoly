@@ -11,7 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import thiendz.j5.assignment.model.CartItem;
+import thiendz.j5.assignment.model.atrributes.CartItem;
+import thiendz.j5.assignment.service.AccountSessionService;
 import thiendz.j5.assignment.service.ShoppingCartServiceImpl;
 
 @Controller
@@ -23,13 +24,15 @@ public class ShoppingCartController {
 
     @Autowired
     ShoppingCartServiceImpl shoppingCartServiceImpl;
+    @Autowired
+    AccountSessionService accountSessionService;
 
     @GetMapping
     public String index() {
         rq.setAttribute("totalPayment", shoppingCartServiceImpl.totalPayment());
         rq.setAttribute("listCarts", shoppingCartServiceImpl.get());
         String path = "/cart";
-        if(shoppingCartServiceImpl.getCount() == 0){
+        if (shoppingCartServiceImpl.getCount() == 0) {
             path = "redirect:/";
         }
         return path;
@@ -42,6 +45,7 @@ public class ShoppingCartController {
         CartItem cartItem = new CartItem();
         cartItem.setId(id);
         shoppingCartServiceImpl.delete(cartItem);
+        accountSessionService.setCountShoppingCart(shoppingCartServiceImpl.getCount());
         return "redirect:/shopping-cart";
     }
 

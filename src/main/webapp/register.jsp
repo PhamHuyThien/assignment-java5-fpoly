@@ -6,18 +6,35 @@
 <%@include file="inc/header.jsp" %>
 
 <form:form method="POST" modelAttribute="account-register">
-    username: <form:input path="username" /> <form:errors path="username" element="li" delimiter="; " cssClass="error"/> <br/> 
-    fullname: <form:input path="fullname" /> <form:errors path="fullname" element="li" delimiter="; " cssClass="error"/> <br/> 
-    email: <form:input path="email" /> <form:errors path="email" element="li" delimiter="; " cssClass="error"/> <br/> 
-    password: <form:input path="password" /> <form:errors path="password" element="li" delimiter="; " cssClass="error"/> <br/> 
-    <button name="register">Register</button>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Username:</label>
+        <form:input path="username" cssClass="form-control" /> <form:errors path="username" element="li" delimiter="; " cssClass="error"/>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Full name:</label>
+        <form:input path="fullname" cssClass="form-control"/> <form:errors path="fullname" element="li" delimiter="; " cssClass="error"/>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email:</label>
+        <form:input path="email" cssClass="form-control" /> <form:errors path="email" element="li" delimiter="; " cssClass="error"/>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Password: </label>
+        <form:input path="password" cssClass="form-control" /> <form:errors path="password" element="li" delimiter="; " cssClass="error"/> <br/> 
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Register</button>
+    </div>
 </form:form>
+<br/>
 <c:forEach items="${error}" var="err">
-    <span class="error">
+    <div class="alert alert-danger" role="alert">
         ${err}
-    </span><br/>
+    </div>
 </c:forEach>
-<c:if test="${success}">
-    <span>Đăng kí thành công!</span>
-</c:if>
+<c:forEach items="${success}" var="succ">
+    <div class="alert alert-success" role="alert">
+        ${succ}
+    </div>
+</c:forEach>
 <%@include file="inc/footer.jsp" %>
