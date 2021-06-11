@@ -9,8 +9,8 @@
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Mã Hóa đơn</th>
-            <th scope="col">Ngày mua hàng</th>
+            <th scope="col"><a href="?page=${page}&type-sort=${typeSort}&col-sort=id">Mã Hóa đơn</a></th>
+            <th scope="col"><a href="?page=${page}&type-sort=${typeSort}&col-sort=time">Ngày mua hàng</a></th>
             <th scope="col">Action</th>
         </tr>
     </thead>

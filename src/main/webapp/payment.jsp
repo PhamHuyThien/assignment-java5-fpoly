@@ -9,29 +9,29 @@
     <div class="row">
         <h4>Danh sách sản phẩm</h4>
     </div>
-    <c:forEach items="${listCarts}" var="cart">
-        <div class="row">
-            <div class="col-4">
-                ${cart.value.name}
-            </div>
-            <div class="col-4">
-                x${cart.value.qty}
-            </div>
-            <div class="col-4">
-                ${cart.value.price * cart.value.qty} tr VND
-            </div>
-        </div>
-    </c:forEach>
-    <div class="row">
-        <div class="col-4">
-            Tổng tiền:
-        </div>
-        <div class="col-4">
-        </div>
-        <div class="col-4">
-           ${totalPayment} tr VND
-        </div>
-    </div>
+    <table class="table table-striped"> 
+        <thead>
+            <tr>            
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Tổng tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${listCarts}" var="cart">
+                <tr>
+                    <td>${cart.value.name}</td>
+                    <td>x${cart.value.qty}</td>
+                    <td>${cart.value.price * cart.value.qty} tr VND</td>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td>Tổng tiền:</td>
+                <td></td>
+                <td>${totalPayment} tr VND</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <div>
     <div class="row">

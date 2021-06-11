@@ -47,6 +47,10 @@ public class ErrorManager {
         successContent = content;
     }
 
+    public String success() {
+        return successContent;
+    }
+
     public boolean exists() {
         return !error.isEmpty();
     }

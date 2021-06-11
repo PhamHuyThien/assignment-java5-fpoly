@@ -56,7 +56,7 @@ public class CategoryManagerController {
         rq.setAttribute("listcategory", listCategories);
         //
         rq.setAttribute("page", page);
-        rq.setAttribute("typesort", typeSort.equals("DESC") ? "ASC" : "DESC");
+        rq.setAttribute("typeSort", typeSort.equals("DESC") ? "ASC" : "DESC");
         return "/admin/category-manager";
     }
 

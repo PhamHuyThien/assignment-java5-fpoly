@@ -15,3 +15,8 @@
     display: flex;
     justify-content: space-around;
 }
+
+item{
+    padding: 0 15px;
+    /*margin-bottom: 10px;*/
+}

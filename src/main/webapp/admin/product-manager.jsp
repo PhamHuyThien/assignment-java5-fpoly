@@ -35,14 +35,22 @@
         <form:input path="price" cssClass="form-control" /> <form:errors path="price" element="li" delimiter="; " cssClass="error"/> 
     </div><br/>
     <div class="custom-file">
-        <input type="file" name="file" class="custom-file-input" id="validatedCustomFile" required>
-        <label class="custom-file-label" for="validatedCustomFile">Chọn file ảnh sản phẩm...</label>
+        <input type="file" name="file" class="custom-file-input">
+        <label class="custom-file-label">Chọn file ảnh sản phẩm...</label>
     </div><br/><br/>
     <div class="form-inline">
         <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Tình trạng:</label>
         <form:select path="status" cssClass="custom-select">
-            <form:option value="true">Kích hoạt</form:option>
-            <form:option value="false">Bỏ kích hoạt</form:option>
+            <c:choose>
+                <c:when test="${productForm.status}">
+                    <form:option value="true" selected="true">Kích hoạt</form:option>
+                    <form:option value="false">Bỏ kích hoạt</form:option>
+                </c:when>
+                <c:otherwise>
+                    <form:option value="true" selected="true">Kích hoạt</form:option>
+                    <form:option value="false">Bỏ kích hoạt</form:option>
+                </c:otherwise>
+            </c:choose>
         </form:select>
     </div><br/>
     <div class="text-right">
@@ -64,11 +72,12 @@
 <table class="table table-striped"> 
     <thead>
         <tr>
-            <th><a href="?col-sort=id&type-sort=${typesort}&page=${page}">id</a></th>
-            <th><a href="?col-sort=name&type-sort=${typesort}&page=${page}">name</a></th>
-            <th><a href="?col-sort=price&type-sort=${typesort}&page=${page}">price</a></th>
-            <th><a href="?col-sort=category&type-sort=${typesort}&page=${page}">type</a></th>
-            <th><a href="?col-sort=status&type-sort=${typesort}&page=${page}">status</a></th>
+            <th><a href="?col-sort=id&type-sort=${typeSort}&page=${page}">id</a></th>
+            <th><a href="?col-sort=name&type-sort=${typeSort}&page=${page}">name</a></th>
+            <th><a href="?col-sort=price&type-sort=${typeSort}&page=${page}">price</a></th>
+            <th><a href="?col-sort=category&type-sort=${typeSort}&page=${page}">type</a></th>
+            <th><a href="?col-sort=image&type-sort=${typeSort}&page=${page}">img</a></th>
+            <th><a href="?col-sort=status&type-sort=${typeSort}&page=${page}">status</a></th>
             <th>action</th>
         </tr>
     </thead>
@@ -79,8 +88,9 @@
                 <td>${list.name}</td>
                 <td>${list.price}</td>
                 <td>${list.category.name}</td>
+                <td><img src="${list.image}" alt="alt" style="width: 50px"/></td>
                 <td>${list.status}</td>
-                <td><a href="?edit=${list.id}">Edit</a></td>
+                <td><a href="?edit=${list.id}&page=${page}">Edit</a></td>
             </tr>
         </c:forEach>
     </tbody>

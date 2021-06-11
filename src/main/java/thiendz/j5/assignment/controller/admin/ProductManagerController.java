@@ -35,7 +35,7 @@ import thiendz.j5.assignment.util.Utils;
 @RequestMapping({"/admin/product-manager"})
 public class ProductManagerController {
 
-    private static final String PATH_SAVE_AVATAR = "/assets/avatar/";
+    private static final String PATH_SAVE_PRODUCT_IMG = "/assets/img/product/";
     @Autowired
     HttpServletRequest rq;
     @Autowired
@@ -75,7 +75,7 @@ public class ProductManagerController {
         rq.setAttribute("listCategory", categoryDAO.findAll());
         //
         rq.setAttribute("page", page);
-        rq.setAttribute("typesort", typeSort.equals("DESC") ? "ASC" : "DESC");
+        rq.setAttribute("typeSort", typeSort.equals("DESC") ? "ASC" : "DESC");
         return "/admin/product-manager";
     }
 
@@ -88,7 +88,7 @@ public class ProductManagerController {
     public String add(
             @Valid @ModelAttribute("productForm") ProductForm productForm,
             BindingResult bind,
-            @RequestParam("avatar") MultipartFile multipartFile
+            @RequestParam("file") MultipartFile multipartFile
     ) {
         String type = "Thêm thành công";
         error.start("/admin/product-manager");
@@ -98,25 +98,15 @@ public class ProductManagerController {
         }
         Product product = null;
         if (productForm.getId() == null) { // thêm mới
-            if (multipartFile.isEmpty()) {
-                error.add("file is empty!");
-                return error.path();
-            }
-            if (!multipartFile.getOriginalFilename().endsWith(".jpg")) {
-                error.add("Chỉ hỗ trợ ảnh jpg!");
-                return error.path();
-            }
-            String name = "avt" + Utils.random.nextInt(999999) + ".jpg";
-            File result = paramService.save(multipartFile, PATH_SAVE_AVATAR, name);
-            if (result == null) {
-                error.add("lưu ảnh vào db thất bại!");
+            error = saveImg(multipartFile, paramService, error);
+            if (error.exists()) {
                 return error.path();
             }
             Category category = categoryDAO.getById(productForm.getCategoryId());
             product = new Product(
                     productForm.getId(),
                     productForm.getName(),
-                    PATH_SAVE_AVATAR + name,
+                    error.success(),
                     productForm.getPrice(),
                     true,
                     new Date(),
@@ -127,17 +117,11 @@ public class ProductManagerController {
             Category category = categoryDAO.getById(productForm.getCategoryId());
             product = productDAO.getById(productForm.getId());
             if (!multipartFile.isEmpty()) {
-                if (!multipartFile.getOriginalFilename().endsWith(".jpg")) {
-                    error.add("Chỉ hỗ trợ ảnh jpg!");
+                error = saveImg(multipartFile, paramService, error);
+                if (error.exists()) {
                     return error.path();
                 }
-                String name = "avt" + Utils.random.nextInt(999999) + ".jpg";
-                File result = paramService.save(multipartFile, PATH_SAVE_AVATAR, name);
-                if (result == null) {
-                    error.add("lưu ảnh vào db thất bại!");
-                    return error.path();
-                }
-                product.setImage(PATH_SAVE_AVATAR + name);
+                product.setImage(error.success());
             }
             product.setCategory(category);
             product.setName(productForm.getName());
@@ -164,5 +148,24 @@ public class ProductManagerController {
         productDAO.delete(product);
         error.success("Xóa thành công!");
         return error.path();
+    }
+
+    public static ErrorManager saveImg(MultipartFile multipartFile, ParamService paramService, ErrorManager errorManager) {
+        if (multipartFile.isEmpty()) {
+            errorManager.add("file is empty!");
+            return errorManager;
+        }
+        if (!multipartFile.getOriginalFilename().endsWith(".png")) {
+            errorManager.add("Chỉ hỗ trợ ảnh png!");
+            return errorManager;
+        }
+        String name = "product_" + Utils.random.nextInt(999999) + ".png";
+        File result = paramService.save(multipartFile, PATH_SAVE_PRODUCT_IMG, name);
+        if (result == null) {
+            errorManager.add("lưu ảnh vào db thất bại!");
+            return errorManager;
+        }
+        errorManager.success(PATH_SAVE_PRODUCT_IMG + name);
+        return errorManager;
     }
 }

@@ -5,26 +5,61 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>  
 <%@include file="../inc/header.jsp" %>
 
-<form:form method="POST" action="/admin/category-manager/add" modelAttribute="category">
+<form:form method="POST" action="/admin/account-manager/add" modelAttribute="accountForm" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="exampleInputEmail1">Id:</label>
-        <form:input path="id" cssClass="form-control" /> <form:errors path="id" element="li" delimiter="; " cssClass="error"/>
+        <label for="exampleInputEmail1">Username:</label>
+        <form:input path="username" cssClass="form-control" /> <form:errors path="username" element="li" delimiter="; " cssClass="error"/>
     </div>
     <div class="form-group">
-        <label for="exampleInputEmail1">Name:</label>
-        <form:input path="name" cssClass="form-control" /> <form:errors path="name" element="li" delimiter="; " cssClass="error"/>
+        <label for="exampleInputEmail1">Password: </label>
+        <form:input path="password" cssClass="form-control" /> <form:errors path="password" element="li" delimiter="; " cssClass="error"/>
+    </div>    
+    <div class="form-group">
+        <label for="exampleInputEmail1">Full name:</label>
+        <form:input path="fullname" cssClass="form-control"/> <form:errors path="fullname" element="li" delimiter="; " cssClass="error"/>
     </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email:</label>
+        <form:input path="email" cssClass="form-control" /> <form:errors path="email" element="li" delimiter="; " cssClass="error"/>
+    </div><br/>
+    <div class="custom-file">
+        <input type="file" name="file" class="custom-file-input" id="validatedCustomFile">
+        <label class="custom-file-label" >Chọn file ảnh...</label>
+    </div><br/><br/>
+    <div class="form-inline">
+        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Quyền:</label>
+        <form:select cssClass="custom-select my-1 mr-sm-2" path="role">
+            <c:choose>
+                <c:when test="${accountForm.status}">
+                    <form:option value="true" selected="true">Admin</form:option>
+                    <form:option value="false">Khách hàng</form:option>
+                </c:when>
+                <c:otherwise>
+                    <form:option value="true" selected="true">Admin</form:option>
+                    <form:option value="false">Khách hàng</form:option>
+                </c:otherwise>
+            </c:choose>
+        </form:select>
+    </div><br/>
     <div class="form-inline">
         <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Tình trạng:</label>
         <form:select cssClass="custom-select my-1 mr-sm-2" path="status">
-            <form:option value="true">Kích hoạt</form:option>
-            <form:option value="false">Bỏ kích hoạt</form:option>
+            <c:choose>
+                <c:when test="${accountForm.status}">
+                    <form:option value="true" selected="true">Kích hoạt</form:option>
+                    <form:option value="false">Bỏ kích hoạt</form:option>
+                </c:when>
+                <c:otherwise>
+                    <form:option value="true" selected="true">Kích hoạt</form:option>
+                    <form:option value="false">Bỏ kích hoạt</form:option>
+                </c:otherwise>
+            </c:choose>
         </form:select>
     </div><br/>
     <div class="text-right">
         <button name="add" class="btn btn-primary">Thêm</button>
-        <button formaction="/admin/category-manager/delete" class="btn btn-danger" >Xóa</button>
-        <button formaction="/admin/category-manager" formmethod="GET" class="btn btn-warning">Reset</button>
+        <button formaction="/admin/action-manager/delete" class="btn btn-danger" >Xóa</button>
+        <button formaction="/admin/action-manager" formmethod="GET" class="btn btn-warning">Reset</button>
     </div>
 </form:form><br/>
 <c:forEach items="${error}" var="err">
@@ -40,19 +75,27 @@
 <table class="table table-striped"> 
     <thead>
         <tr>
-            <th><a href="?col-sort=id&type-sort=${typesort}&page=${page}">id</a></th>
-            <th><a href="?col-sort=name&type-sort=${typesort}&page=${page}">name</a></th>
-            <th><a href="?col-sort=status&type-sort=${typesort}&page=${page}">status</a></th>
+            <th><a href="?col-sort=username&type-sort=${typeSort}&page=${page}">username</a></th>
+            <th><a href="?col-sort=password&type-sort=${typeSort}&page=${page}">password</a></th>
+            <th><a href="?col-sort=fullname&type-sort=${typeSort}&page=${page}">fullname</a></th>
+            <th><a href="?col-sort=email&type-sort=${typeSort}&page=${page}">email</a></th>
+            <th><a href="?col-sort=photo&type-sort=${typeSort}&page=${page}">Photo</a></th>
+            <th><a href="?col-sort=role&type-sort=${typeSort}&page=${page}">role</a></th>
+            <th><a href="?col-sort=status&type-sort=${typeSort}&page=${page}">status</a></th>
             <th>action</th>
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${listcategory}" var="list">
+        <c:forEach items="${listAccounts}" var="account">
             <tr>
-                <th>${list.id}</th>
-                <td>${list.name}</td>
-                <td>${list.status}</td>
-                <td><a href="?edit=${list.id}">Edit</a></td>
+                <th>${account.username}</th>
+                <td>${account.password}</td>
+                <td>${account.fullname}</td>
+                <td>${account.email}</td>
+                <td><img src="${account.photo}" alt="alt" style="width: 50px"/></td>
+                <td>${account.role?"Admin":"Khách hàng"}</td>
+                <td>${account.status}</td>
+                <td><a href="?edit=${account.username}&page=${page}">Edit</a></td>
             </tr>
         </c:forEach>
     </tbody>
@@ -63,7 +106,7 @@
 </div>
 <script>
     let pathName = window.location.pathname;
-    if(!pathName.endsWith("category-manager")){
+    if(!pathName.endsWith("account-manager")){
         setInterval(function(){
             window.location.href = "";
         }, 3000);

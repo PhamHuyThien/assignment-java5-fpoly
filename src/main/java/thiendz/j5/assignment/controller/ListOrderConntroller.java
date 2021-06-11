@@ -37,8 +37,8 @@ public class ListOrderConntroller {
             @RequestParam(name = "view-detail", defaultValue = "-1") int idOrder,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
-            @RequestParam(name = "type", defaultValue = "DESC") String type,
-            @RequestParam(name = "column", defaultValue = "time") String column
+            @RequestParam(name = "col-sort", defaultValue = "time") String colSort,
+            @RequestParam(name = "type-sort", defaultValue = "DESC") String typeSort
     ) {
         if (idOrder != -1) {
             rq.setAttribute("idOrder", idOrder);
@@ -47,9 +47,10 @@ public class ListOrderConntroller {
         }
 
         Account account = sessionService.get("account");
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(type), column));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(typeSort), colSort));
         rq.setAttribute("listOrders", orderDAO.findByUsernameEqual(account.getUsername(), pageable));
         rq.setAttribute("page", page);
+        rq.setAttribute("typeSort", typeSort.equals("DESC") ? "ASC" : "DESC");
         return "/list-order";
     }
 
