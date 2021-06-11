@@ -51,7 +51,7 @@ public class ListOrderConntroller {
         rq.setAttribute("listOrders", orderDAO.findByUsernameEqual(account.getUsername(), pageable));
         rq.setAttribute("page", page);
         rq.setAttribute("typeSort", typeSort.equals("DESC") ? "ASC" : "DESC");
-        return "/list-order";
+        return "list-order";
     }
 
 }

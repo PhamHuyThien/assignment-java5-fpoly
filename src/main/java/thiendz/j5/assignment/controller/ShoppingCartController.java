@@ -31,7 +31,7 @@ public class ShoppingCartController {
     public String index() {
         rq.setAttribute("totalPayment", shoppingCartServiceImpl.totalPayment());
         rq.setAttribute("listCarts", shoppingCartServiceImpl.get());
-        String path = "/cart";
+        String path = "cart";
         if (shoppingCartServiceImpl.getCount() == 0) {
             path = "redirect:/";
         }

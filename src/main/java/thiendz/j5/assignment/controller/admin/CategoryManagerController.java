@@ -57,7 +57,7 @@ public class CategoryManagerController {
         //
         rq.setAttribute("page", page);
         rq.setAttribute("typeSort", typeSort.equals("DESC") ? "ASC" : "DESC");
-        return "/admin/category-manager";
+        return "admin/category-manager";
     }
 
     @GetMapping({"/add", "/delete"})
@@ -70,7 +70,7 @@ public class CategoryManagerController {
             @Valid @ModelAttribute("category") Category category,
             BindingResult bind
     ) {
-        error.start("/admin/category-manager");
+        error.start("admin/category-manager");
         if (bind.hasErrors()) {
             error.add("form not valid!");
             return error.path();
@@ -86,7 +86,7 @@ public class CategoryManagerController {
             @Valid @ModelAttribute("category") Category category,
             BindingResult bind
     ) {
-        error.start("/admin/category-manager");
+        error.start("admin/category-manager");
         if (bind.hasErrors()) {
             error.add("form not valid!");
             return error.path();

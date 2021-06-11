@@ -36,6 +36,6 @@ public class LogoutController {
         shoppingCartServiceImpl.clear();
         accountSessionService.setAccount(null);
         accountSessionService.setCountShoppingCart(0);
-        return "redirect:/index";
+        return "redirect:/";
     }
 }

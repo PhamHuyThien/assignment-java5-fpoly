@@ -25,7 +25,7 @@ import thiendz.j5.assignment.service.ErrorManager;
 import thiendz.j5.assignment.service.SessionService;
 
 @Controller
-@RequestMapping({"/login", "/login.*"})
+@RequestMapping({"/login"})
 public class LoginController {
     
     @Autowired
@@ -42,7 +42,7 @@ public class LoginController {
     @GetMapping
     public String getIndex(Model model) {
         if (sessionService.isLogin()) {
-            return "redirect:/index";
+            return "redirect:/";
         }
         model.addAttribute("account-login", new AccountLogin());
         return "login";
@@ -53,7 +53,7 @@ public class LoginController {
             @Valid @ModelAttribute("account-login") AccountLogin accountLogin,
             BindingResult bind
     ) {
-        error.start("login", "redirect:/index");
+        error.start("login", "redirect:/");
         if (bind.hasErrors()) {
             error.add("Form not valid!");
             return error.path();

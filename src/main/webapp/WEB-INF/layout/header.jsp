@@ -28,7 +28,7 @@
                             <a class="nav-link" href="/admin/account-manager" ><i class="bi bi-people"></i> AccountMNG</a> 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/category-manager" ><i class="bi bi-clipboard-data"></i> AnalysisMNG</a> 
+                            <a class="nav-link" href="/admin/analysis-manager" ><i class="bi bi-clipboard-data"></i> AnalysisMNG</a> 
                         </li>
                     </c:if>
                     <c:if test="${account == null}">
@@ -41,10 +41,10 @@
                     </c:if>
                     <c:if test="${account != null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="/list-order"><i class="bi bi-list-ul"></i> Đơn hàng</a> 
+                            <a class="nav-link" href="/list-order"><i class="bi bi-card-checklist"></i> Đơn hàng</a> 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/list-order"><i class="bi bi-person-circle"></i> Tài khoản</a> 
+                            <a class="nav-link" href="/account" ><i class="bi bi-person-circle"></i> Tài khoản</a> 
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/logout"><i class="bi bi-box-arrow-right"></i> Đăng xuất</a> 

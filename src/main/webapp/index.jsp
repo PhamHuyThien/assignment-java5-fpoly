@@ -4,9 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>  
 
-<%@include file="inc/header.jsp" %>
-
-
 <c:forEach items="${listCategories}" var="category">
     <div style="padding: 0 15px; margin-bottom: 20px; background: #e9f0f7">
         <div class="row" style="padding: 20px 20px 10px 20px; background: #ccd2d8" >
@@ -19,7 +16,7 @@
                         <img class="img-fluid" src="${product.image}" style="width: 150px"/>
                         <h4><span class="small"><i class="bi bi-phone"></i></span> ${product.name.toUpperCase()}</h4>
                         <del style="color:red">Giá ${product.price+5}m VND </del>
-                        <p style="color:blue; margin: 0; margin-bottom: 5px">Sale còn ${product.price}m VND</p>
+                        <p style="color:blue; margin: 0; margin-bottom: 5px">Sale up to ${product.price}m VND</p>
                         <button type="button" onclick="window.location.href='/cart/add/${product.id}'" class="btn btn-outline-primary btn-sm"><i class="bi bi-cart2"></i> Thêm vào giỏ hàng</button>
                     </div>
                 </div>
@@ -27,5 +24,3 @@
         </div>
     </div>
 </c:forEach>   
-
-<%@include file="inc/footer.jsp" %>

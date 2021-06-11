@@ -26,7 +26,7 @@ import thiendz.j5.assignment.service.ErrorManager;
 import thiendz.j5.assignment.util.Utils;
 
 @Controller
-@RequestMapping({"/register", "/register.*"})
+@RequestMapping({"/register"})
 public class RegisterController {
 
     @Autowired

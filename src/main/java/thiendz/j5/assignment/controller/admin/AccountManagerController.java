@@ -57,7 +57,7 @@ public class AccountManagerController {
         rq.setAttribute("accountForm", account);
         rq.setAttribute("page", page);
         rq.setAttribute("typeSort", typeSort.equals("DESC") ? "ASC" : "DESC");
-        return "/admin/account-manager";
+        return "admin/account-manager";
     }
 
     @GetMapping("/add")
@@ -71,7 +71,7 @@ public class AccountManagerController {
             BindingResult bindingResult,
             @RequestParam("file") MultipartFile multipartFile
     ) {
-        errorManager.start("/admin/account-manager");
+        errorManager.start("admin/account-manager");
         if (bindingResult.hasErrors()) {
             errorManager.add("form not valid!");
             return errorManager.path();
@@ -81,7 +81,7 @@ public class AccountManagerController {
         if (accountDB == null) { // thêm mới
             String path = "";
             if (!multipartFile.isEmpty()) {
-                errorManager = saveImg(multipartFile, paramService, errorManager);
+                errorManager = paramService.saveImg(multipartFile, errorManager, PATH_SAVE_ACCOUNT_IMG);
                 if (errorManager.exists()) {
                     return errorManager.path();
                 }
@@ -89,7 +89,7 @@ public class AccountManagerController {
             }
         } else { // sửa
             if (!multipartFile.isEmpty()) {
-                errorManager = saveImg(multipartFile, paramService, errorManager);
+                errorManager = paramService.saveImg(multipartFile, errorManager, PATH_SAVE_ACCOUNT_IMG);
                 if (errorManager.exists()) {
                     return errorManager.path();
                 }
@@ -102,22 +102,4 @@ public class AccountManagerController {
         return errorManager.path();
     }
 
-    public static ErrorManager saveImg(MultipartFile multipartFile, ParamService paramService, ErrorManager errorManager) {
-        if (multipartFile.isEmpty()) {
-            errorManager.add("file is empty!");
-            return errorManager;
-        }
-        if (!multipartFile.getOriginalFilename().endsWith(".png")) {
-            errorManager.add("Chỉ hỗ trợ ảnh png!");
-            return errorManager;
-        }
-        String name = "avatar_" + Utils.random.nextInt(999999) + ".png";
-        File result = paramService.save(multipartFile, PATH_SAVE_ACCOUNT_IMG, name);
-        if (result == null) {
-            errorManager.add("lưu ảnh vào db thất bại!");
-            return errorManager;
-        }
-        errorManager.success(PATH_SAVE_ACCOUNT_IMG + name);
-        return errorManager;
-    }
 }

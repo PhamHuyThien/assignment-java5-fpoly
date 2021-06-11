@@ -8,7 +8,7 @@ import thiendz.j5.assignment.filter.GuestFilter;
 import thiendz.j5.assignment.filter.UserFilter;
 
 @Configuration
-public class ApplicationConfig {
+public class WebFilterConfig {
 
     @Bean
     public FilterRegistrationBean<AdminFilter> adminFilterConfig() {
@@ -22,7 +22,7 @@ public class ApplicationConfig {
     public FilterRegistrationBean<UserFilter> userFilterConfig() {
         FilterRegistrationBean<UserFilter> frb = new FilterRegistrationBean<>();
         frb.setFilter(new UserFilter());
-        frb.addUrlPatterns("/list-order", "/payment", "/logout");
+        frb.addUrlPatterns("/list-order", "/payment", "/logout", "/account");
         return frb;
     }
 

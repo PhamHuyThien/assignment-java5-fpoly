@@ -29,7 +29,6 @@ import thiendz.j5.assignment.model.Product;
 import thiendz.j5.assignment.model.atrributes.ProductForm;
 import thiendz.j5.assignment.service.ErrorManager;
 import thiendz.j5.assignment.service.ParamService;
-import thiendz.j5.assignment.util.Utils;
 
 @Controller
 @RequestMapping({"/admin/product-manager"})
@@ -76,7 +75,7 @@ public class ProductManagerController {
         //
         rq.setAttribute("page", page);
         rq.setAttribute("typeSort", typeSort.equals("DESC") ? "ASC" : "DESC");
-        return "/admin/product-manager";
+        return "admin/product-manager";
     }
 
     @GetMapping({"/add", "/delete"})
@@ -91,14 +90,14 @@ public class ProductManagerController {
             @RequestParam("file") MultipartFile multipartFile
     ) {
         String type = "Thêm thành công";
-        error.start("/admin/product-manager");
+        error.start("admin/product-manager");
         if (bind.hasErrors()) {
             error.add("form not valid!");
             return error.path();
         }
         Product product = null;
         if (productForm.getId() == null) { // thêm mới
-            error = saveImg(multipartFile, paramService, error);
+            error = paramService.saveImg(multipartFile, error, PATH_SAVE_PRODUCT_IMG);
             if (error.exists()) {
                 return error.path();
             }
@@ -117,7 +116,7 @@ public class ProductManagerController {
             Category category = categoryDAO.getById(productForm.getCategoryId());
             product = productDAO.getById(productForm.getId());
             if (!multipartFile.isEmpty()) {
-                error = saveImg(multipartFile, paramService, error);
+                error = paramService.saveImg(multipartFile, error, PATH_SAVE_PRODUCT_IMG);
                 if (error.exists()) {
                     return error.path();
                 }
@@ -138,7 +137,7 @@ public class ProductManagerController {
     public String delete(
             @Valid @ModelAttribute("productForm") ProductForm productForm
     ) {
-        error.start("/admin/product-manager");
+        error.start("admin/product-manager");
         if (productForm.getId() == null) {
             error.add("Bạn phải nhập id!");
             return error.path();
@@ -150,22 +149,4 @@ public class ProductManagerController {
         return error.path();
     }
 
-    public static ErrorManager saveImg(MultipartFile multipartFile, ParamService paramService, ErrorManager errorManager) {
-        if (multipartFile.isEmpty()) {
-            errorManager.add("file is empty!");
-            return errorManager;
-        }
-        if (!multipartFile.getOriginalFilename().endsWith(".png")) {
-            errorManager.add("Chỉ hỗ trợ ảnh png!");
-            return errorManager;
-        }
-        String name = "product_" + Utils.random.nextInt(999999) + ".png";
-        File result = paramService.save(multipartFile, PATH_SAVE_PRODUCT_IMG, name);
-        if (result == null) {
-            errorManager.add("lưu ảnh vào db thất bại!");
-            return errorManager;
-        }
-        errorManager.success(PATH_SAVE_PRODUCT_IMG + name);
-        return errorManager;
-    }
 }

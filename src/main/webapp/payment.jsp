@@ -3,7 +3,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>  
-<%@include file="inc/header.jsp" %>
 
 <div>
     <div class="row">
@@ -61,13 +60,22 @@
             <button type="submit" class="btn btn-primary">Đặt hàng</button>
         </div>
     </form:form>
+    <c:forEach items="${error}" var="err">
+        <div class="alert alert-danger" role="alert">
+            ${err}
+        </div>
+    </c:forEach>
+    <c:if test="${not empty success}">
+        <div class="alert alert-success" role="alert">
+            ${success}
+        </div>
+    </c:if>
 </div>
 <script>
     let pathName = window.location.pathname;
     if(!pathName.endsWith("payment") && !pathName.endsWith("payment/")){
         setInterval(function(){
             window.location.href = "";
-        }, 3000);
+        }, 1500);
     }
 </script>
-<%@include file="inc/footer.jsp" %>

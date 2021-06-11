@@ -33,7 +33,7 @@ import thiendz.j5.assignment.service.ShoppingCartServiceImpl;
 @Controller
 @RequestMapping("/payment")
 public class PaymentController {
-    
+
     @Autowired
     SessionService sessionService;
     @Autowired
@@ -50,7 +50,7 @@ public class PaymentController {
     OrderDetailDAO orderDetailDAO;
     @Autowired
     OrderDAO orderDAO;
-    
+
     @GetMapping
     public String getIndex() {
         if (shoppingCartServiceImpl.getCount() == 0) {
@@ -61,14 +61,14 @@ public class PaymentController {
         rq.setAttribute("paymentForm", paymentForm);
         rq.setAttribute("listCarts", shoppingCartServiceImpl.get());
         rq.setAttribute("totalPayment", shoppingCartServiceImpl.totalPayment());
-        return "/payment";
+        return "payment";
     }
-    
+
     @GetMapping({"/add"})
     public String redirectIndex() {
         return "redirect:/payment";
     }
-    
+
     @RequestMapping("/add")
     public String payment(
             @Valid @ModelAttribute("paymentForm") PaymentForm paymentForm,
@@ -80,7 +80,7 @@ public class PaymentController {
         if (shoppingCartServiceImpl.getCount() == 0) {
             return "redirect:/";
         }
-        error.start("/payment");
+        error.start("payment", "redirect:/");
         if (bindingResult.hasErrors()) {
             error.add("form not valid!");
             return error.path();
@@ -107,6 +107,6 @@ public class PaymentController {
         });
         shoppingCartServiceImpl.clear();
         accountSessionService.setCountShoppingCart(0);
-        return "redirect:/";
+        return error.path();
     }
 }

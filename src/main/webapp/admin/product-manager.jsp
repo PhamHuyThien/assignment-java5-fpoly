@@ -3,7 +3,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>  
-<%@include file="../inc/header.jsp" %>
 
 <form:form method="POST" action="/admin/product-manager/add" modelAttribute="productForm" enctype="multipart/form-data">
 
@@ -60,7 +59,7 @@
     </div><br/>
 </form:form>
 <c:forEach items="${error}" var="err">
-    <div class="alert alert-error" role="alert">
+    <div class="alert alert-danger" role="alert">
         ${err}
     </div>
 </c:forEach>
@@ -95,16 +94,30 @@
         </c:forEach>
     </tbody>
 </table>
-<div class="text-center">    
-    <a href="?page=${page-1}">prev</a> ${page+1}
-    <a href="?page=${page+1}">next</a>
-</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="?page=${page-1}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="?page=${page}">${page}</a></li>
+        <li class="page-item"><a class="page-link" href="?page=${page+1}">${page+1}</a></li>
+        <li class="page-item"><a class="page-link" href="?page=${page+1}">${page+2}</a></li>
+        <li class="page-item">
+            <a class="page-link" href="?page=${page+1}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 <script>
     let pathName = window.location.pathname;
     if(!pathName.endsWith("product-manager/") && !pathName.endsWith("product-manager")){
         setInterval(function(){
             window.location.href = "";
-        }, 3000);
+        }, 1500);
     }
 </script>
-<%@include file="../inc/footer.jsp" %>

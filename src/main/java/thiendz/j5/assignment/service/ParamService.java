@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import thiendz.j5.assignment.util.Utils;
 
 /**
  *
@@ -66,6 +67,25 @@ public class ParamService {
     public File save(MultipartFile multipartFile, String path) {
         String name = multipartFile.getOriginalFilename();
         return save(multipartFile, path, name);
+    }
+
+    public ErrorManager saveImg(MultipartFile multipartFile, ErrorManager errorManager, String pathSave) {
+        if (multipartFile.isEmpty()) {
+            errorManager.add("file is empty!");
+            return errorManager;
+        }
+        if (!multipartFile.getOriginalFilename().endsWith(".png")) {
+            errorManager.add("Chỉ hỗ trợ ảnh png!");
+            return errorManager;
+        }
+        String name = "img_" + Utils.random.nextInt(999999) + ".png";
+        File result = save(multipartFile, pathSave, name);
+        if (result == null) {
+            errorManager.add("lưu ảnh vào db thất bại!");
+            return errorManager;
+        }
+        errorManager.success(pathSave + name);
+        return errorManager;
     }
 
     public File save(MultipartFile multipartFile, String path, String name) {

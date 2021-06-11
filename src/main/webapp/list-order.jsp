@@ -3,7 +3,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>  
-<%@include file="inc/header.jsp" %>
 <h3>Danh sách hóa đơn đã đặt hàng</h3><br/>
 <table class="table table-striped">
     <thead>
@@ -27,8 +26,25 @@
         </c:forEach>
     </tbody>
 </table>
-<a href="?page=${page-1}">prev</a> ${page+1}
-<a href="?page=${page+1}">next</a>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="?page=${page-1}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="?page=${page}">${page}</a></li>
+        <li class="page-item"><a class="page-link" href="?page=${page+1}">${page+1}</a></li>
+        <li class="page-item"><a class="page-link" href="?page=${page+1}">${page+2}</a></li>
+        <li class="page-item">
+            <a class="page-link" href="?page=${page+1}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 <c:if test="${not empty idOrder}">
     <h3>Chi tiết hóa đơn #${idOrder}</h3><br/>
     <table class="table table-striped">
@@ -65,4 +81,3 @@
     </table>
 </c:if>
 
-<%@include file="inc/footer.jsp" %>

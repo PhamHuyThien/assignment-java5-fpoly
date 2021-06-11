@@ -16,7 +16,7 @@ import thiendz.j5.assignment.service.AccountSessionService;
 import thiendz.j5.assignment.service.ShoppingCartServiceImpl;
 
 @Controller
-@RequestMapping({"/", "/index", "/index.*"})
+@RequestMapping({"/"})
 public class IndexController {
     
     @Autowired
@@ -45,6 +45,6 @@ public class IndexController {
         CartItem cartItem = new CartItem(product.getId(), product.getName(), product.getPrice(), 1);
         shoppingCartServiceImpl.add(cartItem);
         accountSessionService.setCountShoppingCart(shoppingCartServiceImpl.getCount());
-        return "redirect:/index";
+        return "redirect:/";
     }    
 }
