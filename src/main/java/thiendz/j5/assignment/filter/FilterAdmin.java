@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import thiendz.j5.assignment.model.Account;
 
-public class AdminFilter implements Filter {
+public class FilterAdmin implements Filter {
 
     @Override
     public void doFilter(ServletRequest rq, ServletResponse rp, FilterChain fc) throws IOException, ServletException {

@@ -8,6 +8,7 @@ package thiendz.j5.assignment.service;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import thiendz.j5.assignment.dao.AccountDAO;
 import thiendz.j5.assignment.model.Account;
 
 /**
@@ -19,6 +20,12 @@ public class SessionService {
 
     @Autowired
     HttpSession session;
+    @Autowired
+    CookieService cookieService;
+    @Autowired
+    AccountSessionService accountSessionService;
+    @Autowired
+    AccountDAO accountDAO;
 
     public <T> T get(String name) {
         return (T) session.getAttribute(name);
@@ -30,6 +37,10 @@ public class SessionService {
 
     public void remove(String name) {
         session.removeAttribute(name);
+    }
+
+    public Account getAccount() {
+        return get("account");
     }
 
     public boolean isLogin() {

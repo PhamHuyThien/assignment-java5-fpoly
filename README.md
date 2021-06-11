@@ -1,3 +1,7 @@
+### v1.5
+- sử dụng iterceptor thay webFilter (VIP VL)
+- sử dụng cookie cho toàn trang thay vì dùng session như trước
+- 
 ### v1.4
 - [Lỗi nặng] fix lỗi nguy hiểm khiến các dân chơi có thể đổi pass bất cứ tk nào
 - Gửi mail khi đặt hàng thành công!

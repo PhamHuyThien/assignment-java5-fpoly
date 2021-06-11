@@ -46,7 +46,7 @@ public class ListOrderConntroller {
             rq.setAttribute("totalMoneyOrder", orderDetailDAO.totalMoneyOrder(idOrder));
         }
 
-        Account account = sessionService.get("account");
+        Account account = sessionService.getAccount();
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.valueOf(typeSort), colSort));
         rq.setAttribute("listOrders", orderDAO.findByUsernameEqual(account.getUsername(), pageable));
         rq.setAttribute("page", page);

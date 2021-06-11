@@ -60,7 +60,7 @@ public class PaymentController {
         if (shoppingCartServiceImpl.getCount() == 0) {
             return "redirect:/";
         }
-        Account account = sessionService.get("account");
+        Account account = sessionService.getAccount();
         PaymentForm paymentForm = new PaymentForm(account.getFullname(), "", "");
         rq.setAttribute("paymentForm", paymentForm);
         rq.setAttribute("listCarts", shoppingCartServiceImpl.get());
@@ -89,7 +89,7 @@ public class PaymentController {
             error.add("form not valid!");
             return error.path();
         }
-        Account account = sessionService.get("account");
+        Account account = sessionService.getAccount();
         Order order = new Order();
         order.setAccount(account);
         order.setAndress(paymentForm.getAndress());

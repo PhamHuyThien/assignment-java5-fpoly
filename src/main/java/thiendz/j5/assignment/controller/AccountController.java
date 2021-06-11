@@ -70,7 +70,7 @@ public class AccountController {
             errorManager.add("form not valid!");
             return errorManager.path();
         }
-        Account account = sessionService.get("account");
+        Account account = sessionService.getAccount();
         account.setUsername(accountForm.getUsername());
         account.setFullname(accountForm.getFullname());
         account.setEmail(accountForm.getEmail());

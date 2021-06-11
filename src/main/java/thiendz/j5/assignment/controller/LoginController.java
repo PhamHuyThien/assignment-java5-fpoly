@@ -70,7 +70,6 @@ public class LoginController {
         }
         cookieService.add("username", account.getUsername(), 24);
         cookieService.add("password", account.getPassword(), 24);
-        cookieService.add("role", account.getRole() ? "1" : "0", 24);
         sessionService.set("account", account);
         accountSessionService.setAccount(account);
         return error.path();

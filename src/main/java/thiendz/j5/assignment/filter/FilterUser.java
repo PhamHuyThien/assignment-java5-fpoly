@@ -15,15 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import thiendz.j5.assignment.model.Account;
 
-public class GuestFilter implements Filter {
+public class FilterUser implements Filter {
 
     @Override
     public void doFilter(ServletRequest rq, ServletResponse rp, FilterChain fc) throws IOException, ServletException {
         HttpServletRequest hrq = (HttpServletRequest) rq;
         HttpServletResponse hrp = (HttpServletResponse) rp;
         Account account = (Account) hrq.getSession().getAttribute("account");
-        if (account != null) {
-            hrp.sendRedirect(hrq.getContextPath() + "/");
+        if (account == null) {
+            hrp.sendRedirect(hrq.getContextPath() + "/login");
             return;
         }
         fc.doFilter(rq, rp);

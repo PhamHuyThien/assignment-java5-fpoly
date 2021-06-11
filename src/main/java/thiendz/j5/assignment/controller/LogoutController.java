@@ -9,11 +9,6 @@ import thiendz.j5.assignment.service.CookieService;
 import thiendz.j5.assignment.service.SessionService;
 import thiendz.j5.assignment.service.ShoppingCartServiceImpl;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 @Controller
 @RequestMapping("/logout")
 public class LogoutController {
@@ -32,7 +27,6 @@ public class LogoutController {
         sessionService.remove("account");
         cookieService.remove("username");
         cookieService.remove("password");
-        cookieService.remove("role");
         shoppingCartServiceImpl.clear();
         accountSessionService.setAccount(null);
         accountSessionService.setCountShoppingCart(0);
