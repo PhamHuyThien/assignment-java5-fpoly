@@ -91,7 +91,7 @@
                 <td>${account.password}</td>
                 <td>${account.fullname}</td>
                 <td>${account.email}</td>
-                <td><img src="${account.photo}" alt="alt" style="width: 50px"/></td>
+                <td><img src="${account.photo}" alt="avatar" style="width: 50px"/></td>
                 <td>${account.role?"Admin":"Khách hàng"}</td>
                 <td>${account.status}</td>
                 <td><a href="?edit=${account.username}&page=${page}">Edit</a></td>

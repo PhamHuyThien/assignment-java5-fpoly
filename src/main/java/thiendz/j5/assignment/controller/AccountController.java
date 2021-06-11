@@ -19,6 +19,7 @@ import thiendz.j5.assignment.dao.AccountDAO;
 import thiendz.j5.assignment.model.Account;
 import thiendz.j5.assignment.model.atrributes.AccountForm;
 import thiendz.j5.assignment.service.ErrorManager;
+import thiendz.j5.assignment.service.MailService;
 import thiendz.j5.assignment.service.ParamService;
 import thiendz.j5.assignment.service.SessionService;
 
@@ -33,6 +34,8 @@ public class AccountController {
     SessionService sessionService;
     @Autowired
     ParamService paramService;
+    @Autowired
+    MailService mailService;
     @Autowired
     ErrorManager errorManager;
     @Autowired
@@ -69,7 +72,6 @@ public class AccountController {
         }
         Account account = sessionService.get("account");
         account.setUsername(accountForm.getUsername());
-        account.setPassword(accountForm.getPassword());
         account.setFullname(accountForm.getFullname());
         account.setEmail(accountForm.getEmail());
         if (!multipartFile.isEmpty()) {
@@ -78,6 +80,15 @@ public class AccountController {
                 return errorManager.path();
             }
             account.setPhoto(errorManager.success());
+        }
+        if (!account.getPassword().equals(accountForm.getPassword())) {
+            mailService.push(
+                    account.getEmail(),
+                    "[J5Shop] Mật khẩu đã thay đổi!",
+                    "Mật khẩu được thay đổi, nếu bạn không làm hãy báo việc này cho admin, cảm ơn!"
+            );
+            account.setPassword(accountForm.getPassword());
+            errorManager.start("redirect:/logout");
         }
         accountDAO.save(account);
         errorManager.success("Cập nhật thành công!");

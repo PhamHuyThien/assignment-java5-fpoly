@@ -27,8 +27,10 @@ import thiendz.j5.assignment.model.Product;
 import thiendz.j5.assignment.model.atrributes.PaymentForm;
 import thiendz.j5.assignment.service.AccountSessionService;
 import thiendz.j5.assignment.service.ErrorManager;
+import thiendz.j5.assignment.service.MailService;
 import thiendz.j5.assignment.service.SessionService;
 import thiendz.j5.assignment.service.ShoppingCartServiceImpl;
+import thiendz.j5.assignment.util.MailContent;
 
 @Controller
 @RequestMapping("/payment")
@@ -40,6 +42,8 @@ public class PaymentController {
     ShoppingCartServiceImpl shoppingCartServiceImpl;
     @Autowired
     AccountSessionService accountSessionService;
+    @Autowired
+    MailService mailService;
     @Autowired
     HttpServletRequest rq;
     @Autowired
@@ -102,11 +106,15 @@ public class PaymentController {
                     cart.getQty()
             ));
         });
-        listOrderDetails.forEach((orderDetail) -> {
-            orderDetailDAO.save(orderDetail);
-        });
+        for (int i = 0; i < listOrderDetails.size(); i++) {
+            OrderDetail orderDetail = orderDetailDAO.save(listOrderDetails.get(i));
+            listOrderDetails.set(i, orderDetail);
+        }
+        MailContent mailContent = new MailContent(listOrderDetails);
+        mailService.push(account.getEmail(), mailContent.buildTitle(), mailContent.buildBody());
         shoppingCartServiceImpl.clear();
         accountSessionService.setCountShoppingCart(0);
+
         return error.path();
     }
 }

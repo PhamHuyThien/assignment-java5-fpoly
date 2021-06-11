@@ -1,3 +1,8 @@
+### v1.4
+- [Lỗi nặng] fix lỗi nguy hiểm khiến các dân chơi có thể đổi pass bất cứ tk nào
+- Gửi mail khi đặt hàng thành công!
+- Gửi mail khi đổi mật khẩu ( báo đổi pass giống fb)
+- Đổi mật khẩu sẽ tự động đăng xuất
 ### v1.3
 - sử dụng titles để quản lý layout
 - thêm chỉnh sửa thông tin cá nhân (account)

@@ -87,7 +87,7 @@
                 <td>${list.name}</td>
                 <td>${list.price}</td>
                 <td>${list.category.name}</td>
-                <td><img src="${list.image}" alt="alt" style="width: 50px"/></td>
+                <td><img src="${list.image}" alt="avatar" style="width: 50px"/></td>
                 <td>${list.status}</td>
                 <td><a href="?edit=${list.id}&page=${page}">Edit</a></td>
             </tr>

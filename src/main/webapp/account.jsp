@@ -7,15 +7,12 @@
 <div class="row">
     <div class="col-sm-5 col-xs-12">
         <div style="padding: 50px 0 0 0;" class="text-center">
-            <img src="${accountForm.photo}" class="img-fluid" alt="alt" style="width: 300px;"/>
+            <img src="${accountForm.photo}" class="img-fluid" alt="chưa có avatar." style="width: 300px;"/>
         </div>
     </div>
     <div class="col-sm-7 col-xs-12">
         <form:form method="POST" action="/account/update" modelAttribute="accountForm" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Username:</label>
-                <form:input path="username" cssClass="form-control" /> <form:errors path="username" element="li" delimiter="; " cssClass="error"/>
-            </div>
+            <form:hidden path="username" cssClass="form-control" />
             <div class="form-group">
                 <label for="exampleInputEmail1">Password: </label>
                 <form:input path="password" cssClass="form-control" /> <form:errors path="password" element="li" delimiter="; " cssClass="error"/>
