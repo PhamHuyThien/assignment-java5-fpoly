@@ -17,21 +17,21 @@ import thiendz.j5.assignment.service.SessionService;
 
 @Component
 public class InterceptorAll implements HandlerInterceptor {
-    
+
     @Autowired
     AccountSessionService accountSessionService;
     @Autowired
     SessionService sessionService;
     @Autowired
     CookieService cookieService;
-    
+
     @Override
     public boolean preHandle(HttpServletRequest rq, HttpServletResponse rp, Object handler) {
         Account account = sessionService.getAccount();
         if (account == null) {
             account = cookieService.getAccount();
+            accountSessionService.setAccount(account);
         }
-        accountSessionService.setAccount(account);
         return true;
     }
 }

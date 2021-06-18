@@ -5,7 +5,6 @@
  */
 package thiendz.j5.assignment.controller;
 
-import java.util.Arrays;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import thiendz.j5.assignment.config.J5ShopConfig;
 import thiendz.j5.assignment.dao.AccountDAO;
 import thiendz.j5.assignment.model.Account;
 import thiendz.j5.assignment.model.atrributes.AccountLogin;
@@ -27,7 +28,7 @@ import thiendz.j5.assignment.service.SessionService;
 @Controller
 @RequestMapping({"/login"})
 public class LoginController {
-    
+
     @Autowired
     ErrorManager error;
     @Autowired
@@ -38,7 +39,7 @@ public class LoginController {
     SessionService sessionService;
     @Autowired
     AccountSessionService accountSessionService;
-    
+
     @GetMapping
     public String getIndex(Model model) {
         if (sessionService.isLogin()) {
@@ -47,11 +48,12 @@ public class LoginController {
         model.addAttribute("account-login", new AccountLogin());
         return "login";
     }
-    
+
     @PostMapping
     public String login(
             @Valid @ModelAttribute("account-login") AccountLogin accountLogin,
-            BindingResult bind
+            BindingResult bind,
+            @RequestParam(name = "remember-me", defaultValue = "false") boolean rememberMe
     ) {
         error.start("login", "redirect:/");
         if (bind.hasErrors()) {
@@ -68,8 +70,9 @@ public class LoginController {
             error.add("password không đúng!");
             return error.path();
         }
-        cookieService.add("username", account.getUsername(), 24);
-        cookieService.add("password", account.getPassword(), 24);
+        int hour = rememberMe ? J5ShopConfig.LOGIN_TIME_REMEMBER_ME : J5ShopConfig.LOGIN_TIME_NO_REMEMBER_ME;
+        cookieService.add("username", account.getUsername(), hour);
+        cookieService.add("password", account.getPassword(), hour);
         sessionService.set("account", account);
         accountSessionService.setAccount(account);
         return error.path();

@@ -23,6 +23,7 @@ import thiendz.j5.assignment.dao.AccountDAO;
 import thiendz.j5.assignment.model.Account;
 import thiendz.j5.assignment.model.atrributes.AccountRegister;
 import thiendz.j5.assignment.service.ErrorManager;
+import thiendz.j5.assignment.service.MailService;
 import thiendz.j5.assignment.util.Utils;
 
 @Controller
@@ -35,6 +36,8 @@ public class RegisterController {
     HttpServletRequest rq;
     @Autowired
     ErrorManager error;
+    @Autowired
+    MailService mailService;
 
     @GetMapping
     public String getIndex(Model model) {
@@ -65,6 +68,7 @@ public class RegisterController {
                 null, false, true, new Date()
         );
         accountDAO.save(account);
+        mailService.push(account.getEmail(), "[J5Shop] Đăng kí tài khoản mới!", "Chúc mừng bạn vừa đăng kí tài khoản thành công trên shop.");
         return error.path();
     }
 }

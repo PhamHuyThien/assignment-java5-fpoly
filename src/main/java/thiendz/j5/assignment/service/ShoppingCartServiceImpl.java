@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 import thiendz.j5.assignment.dao.ProductDAO;
 import thiendz.j5.assignment.model.atrributes.CartItem;
+import thiendz.j5.assignment.util.Utils;
 
 @SessionScope
 @Service
@@ -48,7 +49,7 @@ public class ShoppingCartServiceImpl implements IShopService<CartItem> {
         int id = cartItem.getId();
         double money = listCarts.get(id).getPrice();
         int qty = listCarts.get(id).getQty();
-        return money * qty;
+        return Utils.numberFormatMoney(money * qty);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ShoppingCartServiceImpl implements IShopService<CartItem> {
         for (Map.Entry<Integer, CartItem> pair : listCarts.entrySet()) {
             d += totalPayment(pair.getValue());
         }
-        return d;
+        return Utils.numberFormatMoney(d);
     }
 
     @Override

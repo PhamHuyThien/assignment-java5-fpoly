@@ -18,6 +18,7 @@ import thiendz.j5.assignment.dao.OrderDAO;
 import thiendz.j5.assignment.dao.OrderDetailDAO;
 import thiendz.j5.assignment.model.Account;
 import thiendz.j5.assignment.service.SessionService;
+import thiendz.j5.assignment.util.Utils;
 
 @Controller
 @RequestMapping("/list-order")
@@ -43,7 +44,7 @@ public class ListOrderConntroller {
         if (idOrder != -1) {
             rq.setAttribute("idOrder", idOrder);
             rq.setAttribute("listOrderDetails", orderDetailDAO.findByIdOrder(idOrder));
-            rq.setAttribute("totalMoneyOrder", orderDetailDAO.totalMoneyOrder(idOrder));
+            rq.setAttribute("totalMoneyOrder", Utils.numberFormatMoney(orderDetailDAO.totalMoneyOrder(idOrder)));
         }
 
         Account account = sessionService.getAccount();

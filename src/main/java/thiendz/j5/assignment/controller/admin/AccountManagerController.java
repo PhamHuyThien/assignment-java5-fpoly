@@ -102,4 +102,28 @@ public class AccountManagerController {
         return errorManager.path();
     }
 
+    @GetMapping({"/add", "/delete"})
+    public String returnIndex() {
+        return "redirect:/admin/account-manager";
+    }
+
+    @RequestMapping("/delete")
+    public String delete(
+            @Valid @ModelAttribute("accountForm") Account account,
+            BindingResult bind
+    ) {
+        errorManager.start("admin/account-manager");
+        if (bind.hasErrors()) {
+            errorManager.add("form not valid!");
+            return errorManager.path();
+        }
+        if (account.getUsername().equals("")) {
+            errorManager.add("Bạn phải nhập username!");
+            return errorManager.path();
+        }
+        accountDAO.delete(account);
+        errorManager.success("Xóa thành công!");
+        return errorManager.path();
+    }
+
 }

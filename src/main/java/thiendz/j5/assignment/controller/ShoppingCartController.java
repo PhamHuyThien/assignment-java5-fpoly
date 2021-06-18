@@ -18,15 +18,15 @@ import thiendz.j5.assignment.service.ShoppingCartServiceImpl;
 @Controller
 @RequestMapping("/shopping-cart")
 public class ShoppingCartController {
-
+    
     @Autowired
     HttpServletRequest rq;
-
+    
     @Autowired
     ShoppingCartServiceImpl shoppingCartServiceImpl;
     @Autowired
     AccountSessionService accountSessionService;
-
+    
     @GetMapping
     public String index() {
         rq.setAttribute("totalPayment", shoppingCartServiceImpl.totalPayment());
@@ -37,7 +37,7 @@ public class ShoppingCartController {
         }
         return path;
     }
-
+    
     @GetMapping("/remove/{id}")
     public String remove(
             @PathVariable(name = "id", required = true) int id
@@ -48,7 +48,7 @@ public class ShoppingCartController {
         accountSessionService.setCountShoppingCart(shoppingCartServiceImpl.getCount());
         return "redirect:/shopping-cart";
     }
-
+    
     @GetMapping("/{type}/{id}/count/{count}")
     public String setQty(
             @PathVariable(name = "type", required = true) String type,
@@ -66,6 +66,7 @@ public class ShoppingCartController {
         } else {
             shoppingCartServiceImpl.delete(cartItem);
         }
+        accountSessionService.setCountShoppingCart(shoppingCartServiceImpl.getCount());
         return "redirect:/shopping-cart";
     }
 }
