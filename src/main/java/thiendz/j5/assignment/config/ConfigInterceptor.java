@@ -17,25 +17,22 @@ import thiendz.j5.assignment.filter.InterceptorUser;
 @Configuration
 public class ConfigInterceptor implements WebMvcConfigurer {
 
-    @Autowired
-    InterceptorUser interceptorUser;
-    @Autowired
-    InterceptorAdmin interceptorAdmin;
-    @Autowired
-    InterceptorGuest interceptorGuest;
-    @Autowired
-    InterceptorAll interceptorAll;
+	@Autowired
+	InterceptorUser interceptorUser;
+	@Autowired
+	InterceptorAdmin interceptorAdmin;
+	@Autowired
+	InterceptorGuest interceptorGuest;
+	@Autowired
+	InterceptorAll interceptorAll;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry interceptorRegistry) {
-        interceptorRegistry.addInterceptor(interceptorAdmin)
-                .addPathPatterns("/admin/*");
-        interceptorRegistry.addInterceptor(interceptorUser)
-                .addPathPatterns("/list-order", "/payment", "/logout", "/account");
-        interceptorRegistry.addInterceptor(interceptorGuest)
-                .addPathPatterns("/login", "/register");
-        interceptorRegistry.addInterceptor(interceptorAll)
-                .addPathPatterns("/**");
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry interceptorRegistry) {
+		interceptorRegistry.addInterceptor(interceptorAdmin).addPathPatterns("/admin/*");
+		interceptorRegistry.addInterceptor(interceptorUser).addPathPatterns("/list-order", "/payment", "/logout",
+				"/account");
+		interceptorRegistry.addInterceptor(interceptorGuest).addPathPatterns("/login", "/register");
+		interceptorRegistry.addInterceptor(interceptorAll).addPathPatterns("/**");
+	}
 
 }

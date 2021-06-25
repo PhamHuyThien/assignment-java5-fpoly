@@ -98,6 +98,7 @@ public class ProductManagerController {
         Product product = null;
         if (productForm.getId() == null) { // thêm mới
             error = paramService.saveImg(multipartFile, error, PATH_SAVE_PRODUCT_IMG);
+            //String fileLocation = new File("src\\main\\resources\\static\\uploads").getAbsolutePath() + "\\" + m.getOriginalFilename();
             if (error.exists()) {
                 return error.path();
             }

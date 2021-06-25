@@ -5,10 +5,6 @@
  */
 package thiendz.j5.assignment.model;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class ReportProduct implements Serializable {
-    @Id
+public class ReportProduct {
     Product product;
     Double total;
     Long count;

@@ -5,8 +5,6 @@
  */
 package thiendz.j5.assignment.controller.admin;
 
-import java.io.File;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,6 @@ import thiendz.j5.assignment.dao.AccountDAO;
 import thiendz.j5.assignment.model.Account;
 import thiendz.j5.assignment.service.ErrorManager;
 import thiendz.j5.assignment.service.ParamService;
-import thiendz.j5.assignment.util.Utils;
 
 @Controller
 @RequestMapping("/admin/account-manager")
@@ -79,7 +76,6 @@ public class AccountManagerController {
         String type = "Thêm thành công!";
         Account accountDB = accountDAO.getById(account.getUsername());
         if (accountDB == null) { // thêm mới
-            String path = "";
             if (!multipartFile.isEmpty()) {
                 errorManager = paramService.saveImg(multipartFile, errorManager, PATH_SAVE_ACCOUNT_IMG);
                 if (errorManager.exists()) {
